@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import { useState } from "react";
-import { getCampaign,donate } from "@/services/Web3Services";
+import { getCampaign, donate } from "@/services/Web3Services";
 
 export default function Donate() {
 
@@ -25,11 +25,11 @@ export default function Donate() {
             .catch(err => setMessage(err.message))
     }
 
-    function onChangeValue(evt){
-            setDonation(evt.target.value);
+    function onChangeValue(evt) {
+        setDonation(evt.target.value);
     }
 
-    function btnDonateClick(){
+    function btnDonateClick() {
         setMessage("Doando...aguarde");
         donate(campaign.id, donation)
             .then(tx => setMessage(`Doação realizado, obrigado. Em alguns minutos o saldo será atualizado.`))
@@ -83,7 +83,10 @@ export default function Donate() {
                                                 : <></>
                                         }
                                         <p className="mb-3 fst-italic mt-5">
-                                            E aí, o que achou do projeto?Já foi arrecadado {(Number(campaign.balance) / 10 ** 18).toFixed(2)} BNB nesta campanha. O quanto você quer doar (em BNB)?
+                                            E aí, o que achou do projeto? Já foi arrecadado 
+                                             {typeof campaign.balance === "bigint"
+                                                ? (parseFloat(campaign.balance.toString()) / 10 ** 18).toFixed(3)
+                                                : "Carregando..."} BNB nesta campanha. O quanto você quer doar (em BNB)?
                                         </p>
                                         <div className="mb-3">
                                             <div className="input-group">
